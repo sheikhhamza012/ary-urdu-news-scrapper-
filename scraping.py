@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import csv 
 visited=[]
 link='https://urdu.arynews.tv/dr-arif-alvi-pak-afriqa-isb/'
+origin = link
+go='next'
 with open('out.csv', 'w') as f: 
     w = csv.DictWriter(f,['srNo','label','link','news']) 
     w.writeheader() 
@@ -17,7 +19,15 @@ with open('out.csv', 'w') as f:
         table = soup.find('article', attrs = {'class':'post'}) 
         obj={'srNo':i,'link':link,'news':''}
         visited.append(link)
-        link = soup.find('a',attrs={'rel':'next'})['href']
+        link = soup.find('a',attrs={'rel':go})
+        if link == None :
+            if go == 'prev':
+                break
+            i-=1
+            link=origin
+            go='prev'
+            continue
+        link= link['href']
         label = soup.find('li',attrs={'class':'current-post-ancestor'})
         if(label == None):
             print ('label not detected ', i)
