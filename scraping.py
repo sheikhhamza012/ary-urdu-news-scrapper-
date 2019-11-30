@@ -3,7 +3,9 @@ from bs4 import BeautifulSoup
 import csv 
 visited=[]
 link='https://urdu.arynews.tv/dr-arif-alvi-pak-afriqa-isb/'
+# link='https://urdu.arynews.tv/dollar-weekly-report-30-nov-2019/'
 origin = link
+# go='prev'
 go='next'
 with open('out.csv', 'w') as f: 
     w = csv.DictWriter(f,['srNo','label','link','news']) 
@@ -23,7 +25,7 @@ with open('out.csv', 'w') as f:
             link = soup.find('a',attrs={'rel':go})
             if link == None :
                 if go == 'prev':
-                    break
+                    raise ValueError("ex")
                 i-=1
                 link=origin
                 go='prev'
